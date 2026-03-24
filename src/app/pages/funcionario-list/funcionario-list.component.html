@@ -1,0 +1,92 @@
+<div class="title">
+  <h1>Cadastro de Funcionários</h1>
+</div>
+<div class="container">
+  <div class="card">
+    <div class="header">
+      <div class="new">
+        <p-button
+          label="Cadastrar novo Usuário"
+          icon="pi pi-plus"
+          [rounded]="true"
+          [outlined]="true"
+          severity="primary"
+        />
+      </div>
+      <div class="search">
+        <span class="search-icon">
+          <i class="pi pi-search"></i>
+        </span>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Pesquise por nome..."
+          (input)="search($event)"
+        />
+      </div>
+    </div>
+
+    <p-table [value]="funcionarios" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nome Completo</th>
+          <th>Departamento</th>
+          <th>Turno</th>
+          <th>Ativo</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-funcionario>
+        <tr>
+          <td>{{ funcionario.nome }} {{ funcionario.sobrenome }}</td>
+          <td>{{ DepartamentoEnum[funcionario.departamento] }}</td>
+          <td>{{ TurnoEnum[funcionario.turno] }}</td>
+          <td>
+            <span
+              [ngClass]="funcionario.ativo ? 'status-ativo' : 'status-inativo'"
+            >
+              {{ funcionario.ativo ? "Sim" : "Não" }}
+            </span>
+          </td>
+          <td>
+            <div class="acoes">
+              <p-button
+                icon="pi pi-pencil"
+                class="mr-2"
+                [rounded]="true"
+                [outlined]="true"
+                severity="success"
+              />
+              <p-button
+                icon="pi pi-trash"
+                severity="danger"
+                [rounded]="true"
+                [outlined]="true"
+                (onClick)="deletar(funcionario.id)"
+              />
+              <p-button
+                icon="pi pi-eye"
+                severity="info"
+                [rounded]="true"
+                [outlined]="true"
+              />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="empty-table">
+            <i class="pi pi-users empty-icon"></i>
+            <p class="empty-title">Nenhum funcionário cadastrado</p>
+            <p class="empty-subtitle">
+              Clique em "Cadastrar novo Usuário" para adicionar.
+            </p>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
