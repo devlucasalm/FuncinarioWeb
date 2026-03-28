@@ -11,3 +11,13 @@ export interface FuncionarioList {
   datadecriacao: Date;
   datadealteracao: Date;
 }
+
+export interface FuncionarioCreate {
+  nome: string;
+  sobrenome: string;
+  departamento: DepartamentoEnum;
+  ativo: boolean;
+  turno: TurnoEnum;
+  dataDeCriacao: Date;
+  dataDeAlteracao: Date;
+}

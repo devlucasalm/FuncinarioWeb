@@ -6,11 +6,23 @@ import { ButtonModule } from 'primeng/button';
 import { DepartamentoEnum } from '../../shared/enums/departamento.enum';
 import { TurnoEnum } from '../../shared/enums/turno.enum';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-funcionario-list',
   standalone: true,
-  imports: [TableModule, ButtonModule, CommonModule],
+  imports: [
+    TableModule,
+    ButtonModule,
+    CommonModule,
+    RouterLink,
+    ToastModule,
+    ConfirmDialogModule,
+  ],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './funcionario-list.component.html',
   styleUrl: './funcionario-list.component.scss',
 })
@@ -20,7 +32,11 @@ export class FuncionarioListComponent implements OnInit {
   funcionarios: FuncionarioList[] = [];
   funcionariosFiltrados: FuncionarioList[] = [];
 
-  constructor(private funcionarioService: FuncionarioService) {}
+  constructor(
+    private funcionarioService: FuncionarioService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+  ) {}
 
   ngOnInit(): void {
     this.funcionarioService.getFuncionarios().subscribe((response) => {
@@ -39,17 +55,27 @@ export class FuncionarioListComponent implements OnInit {
     );
   }
 
-  deletar(id: string) {
-    this.funcionarioService.deleteFuncionario(id).subscribe(() => {
-      this.funcionarios = this.funcionarios.filter(
-        (funcionario) => funcionario.id !== id,
-      );
-    });
-  }
+ deletar(id: string) {
+  this.confirmationService.confirm({
+    message: 'Tem certeza que deseja excluir este funcionário?',
+    header: 'Confirmação',
+    icon: 'pi pi-exclamation-triangle',
+    acceptLabel: 'Sim',
+    rejectLabel: 'Cancelar',
 
-  newfuncionario() {
-    this.funcionarioService.postFuncionario().subscribe((response) => {
-      this.funcionarios.push(response.dados);
-    });
-  }
+    accept: () => {
+      this.funcionarioService.deleteFuncionario(id).subscribe(() => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Funcionário deletado com sucesso!',
+        });
+
+        this.funcionarios = this.funcionarios.filter(
+          (funcionario) => funcionario.id !== id
+        );
+      });
+    }
+  });
+}
 }
