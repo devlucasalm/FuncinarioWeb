@@ -1,1 +1,41 @@
-<p>funcionario-edit works!</p>
+<p-toast></p-toast>
+
+<div class="title">
+    <h1>Cadastro de Funcionários</h1>
+</div>
+<div class="container">
+    <div class="card">
+        <h2>Dados do Funcionário</h2>
+        
+        <form [formGroup]="form" (ngSubmit)="salvar()">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" formControlName="nome" pInputText />
+            </div>
+            <div class="form-group">
+                <label for="sobrenome">Sobrenome</label>
+                <input type="text" id="sobrenome" formControlName="sobrenome" pInputText />
+            </div>
+            <div class="form-group">
+                <label for="departamento">Departamento</label>
+                <p-dropdown id="departamento" formControlName="departamento" [options]="departamentos"
+                    optionLabel="label" optionValue="value" placeholder="Selecione...">
+                </p-dropdown>
+            </div>
+            <div class="form-group">
+                <label for="turno">Turno</label>
+                <p-dropdown id="turno" formControlName="turno" [options]="turnos" optionLabel="label"
+                    optionValue="value" placeholder="Selecione...">
+                </p-dropdown>
+            </div>
+            <div class="form-group">
+                <label for="ativo">Ativo</label>
+                <p-triStateCheckbox id="ativo" formControlName="ativo" label="Ativo"></p-triStateCheckbox>
+            </div>
+            <div class="form-actions">
+                <p-button label="Salvar" type="submit" [disabled]="form.invalid"></p-button>
+                <p-button label="Cancelar" [routerLink]="['/funcionario']"></p-button>
+            </div>
+        </form>
+    </div>
+</div>

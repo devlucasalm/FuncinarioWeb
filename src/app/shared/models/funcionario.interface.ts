@@ -21,3 +21,14 @@ export interface FuncionarioCreate {
   dataDeCriacao: Date;
   dataDeAlteracao: Date;
 }
+
+export interface FuncionarioUpdate {
+  id: string;
+  nome: string;
+  sobrenome: string;
+  departamento: DepartamentoEnum;
+  ativo: boolean;
+  turno: TurnoEnum;
+  dataDeCriacao: Date;
+  dataDeAlteracao: Date;
+}

@@ -5,7 +5,7 @@ import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
 import { FuncionarioService } from '../../shared/services/funcionario.service';
 import { DepartamentoEnum } from '../../shared/enums/departamento.enum';
 import { TurnoEnum } from '../../shared/enums/turno.enum';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import {
@@ -32,11 +32,11 @@ import {
 })
 export class FuncionarioFormComponent implements OnInit {
   form!: FormGroup;
-
   constructor(
     private fb: FormBuilder,
     private funcionarioService: FuncionarioService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -87,6 +87,5 @@ export class FuncionarioFormComponent implements OnInit {
         this.form.reset();
       });
     }
-    
   }
 }

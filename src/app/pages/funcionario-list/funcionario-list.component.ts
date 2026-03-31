@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-funcionario-list',
@@ -36,6 +37,7 @@ export class FuncionarioListComponent implements OnInit {
     private funcionarioService: FuncionarioService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -78,4 +80,9 @@ export class FuncionarioListComponent implements OnInit {
     }
   });
 }
+
+  editar(id: string) {
+    this.router.navigate(['/funcionario', id]);
+  }
 }
+
