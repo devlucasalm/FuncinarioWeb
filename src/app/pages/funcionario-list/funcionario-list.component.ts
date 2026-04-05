@@ -32,6 +32,9 @@ export class FuncionarioListComponent implements OnInit {
   TurnoEnum = TurnoEnum;
   funcionarios: FuncionarioList[] = [];
   funcionariosFiltrados: FuncionarioList[] = [];
+  skip: number = 0;
+  take: number = 5;
+  totalRegistros: number = 0;
 
   constructor(
     private funcionarioService: FuncionarioService,
@@ -41,10 +44,23 @@ export class FuncionarioListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.funcionarioService.getFuncionarios().subscribe((response) => {
-      this.funcionarios = response.dados;
-      this.funcionariosFiltrados = response.dados;
+    this.carregarFuncionarios();
+  }
+
+  carregarFuncionarios() {
+    this.funcionarioService.getFuncionarios(this.skip, this.take).subscribe((response) => {
+      this.funcionarios = response.dados.items;
+      this.funcionariosFiltrados = response.dados.items;
+      this.totalRegistros = response.dados.totalCount;
     });
+  }
+
+  onPageChange(event : any) {
+    console.log(event);
+    this.skip = event.first;
+    this.take = event.rows;
+
+    this.carregarFuncionarios();
   }
 
   search(event: Event) {
@@ -62,8 +78,8 @@ export class FuncionarioListComponent implements OnInit {
     message: 'Tem certeza que deseja excluir este funcionário?',
     header: 'Confirmação',
     icon: 'pi pi-exclamation-triangle',
-    acceptLabel: 'Sim',
     rejectLabel: 'Cancelar',
+    acceptLabel: 'Sim',
 
     accept: () => {
       this.funcionarioService.deleteFuncionario(id).subscribe(() => {

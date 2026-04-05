@@ -8,8 +8,8 @@
   <div class="card">
     <div class="header">
       <div class="new">
-        <p-button label="Cadastrar novo Usuário" icon="pi pi-plus" [rounded]="true" [outlined]="true"
-          severity="primary" [routerLink]="['/funcionario/new']"/>
+        <p-button label="Cadastrar novo Usuário" icon="pi pi-plus" [rounded]="true" [outlined]="true" severity="primary"
+          [routerLink]="['/funcionario/new']" />
       </div>
       <div class="search">
         <span class="search-icon">
@@ -19,7 +19,8 @@
       </div>
     </div>
 
-    <p-table [value]="funcionarios" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table [value]="funcionarios" [paginator]="true" [rows]="take" [totalRecords]="totalRegistros" [lazy]="true"
+      (onPage)="onPageChange($event)" [tableStyle]="{ 'min-width': '50rem' }">
       <ng-template pTemplate="header">
         <tr>
           <th>Nome Completo</th>
@@ -42,7 +43,8 @@
           </td>
           <td>
             <div class="acoes">
-              <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success" (onClick)="editar(funcionario.id)" />
+              <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" severity="success"
+                (onClick)="editar(funcionario.id)" />
               <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
                 (onClick)="deletar(funcionario.id)" />
             </div>

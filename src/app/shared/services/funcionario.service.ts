@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AppResponse } from '../models/response.interface';
+import { AppResponse, Paginacao } from '../models/response.interface';
 import { FuncionarioCreate, FuncionarioList, FuncionarioUpdate } from '../models/funcionario.interface';
 
 @Injectable({
@@ -13,8 +13,8 @@ export class FuncionarioService {
 
   constructor(private http: HttpClient) {}
 
-  getFuncionarios(): Observable<AppResponse<FuncionarioList[]>> {
-    return this.http.get<AppResponse<FuncionarioList[]>>(`${this.apiUrl}`);
+  getFuncionarios(skip: number, take: number): Observable<AppResponse<Paginacao<FuncionarioList>>> {
+    return this.http.get<AppResponse<Paginacao<FuncionarioList>>>(`${this.apiUrl}?skip=${skip}&take=${take}`);
   }
 
   deleteFuncionario(id: string): Observable<AppResponse<FuncionarioList>> {
